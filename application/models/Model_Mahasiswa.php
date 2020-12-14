@@ -2,6 +2,9 @@
 defined('BASEPATH') or exit('No direct script access allowed');
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Psr7;
+use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Psr7\Response;
 
 class Model_Mahasiswa extends CI_Model
 {
@@ -19,25 +22,32 @@ class Model_Mahasiswa extends CI_Model
 
     public function getDataMahasiswa($id = null)
     {
-        if ($id == null) {
-            $response = $this->_client->request(
-                'GET',
-                'ApiMahasiswa'
-            );
-            $result = json_decode($response->getBody()->getContents(), true);
-            return $result['data'];
-        } else {
-            $response = $this->_client->request(
-                'GET',
-                'ApiMahasiswa',
-                [
-                    'query' => [
-                        'id' => $id
+        try {
+            if ($id == null) {
+                $response = $this->_client->request(
+                    'GET',
+                    'ApiMahasiswa'
+                );
+            } else {
+                $response = $this->_client->request(
+                    'GET',
+                    'ApiMahasiswa',
+                    [
+                        'query' => [
+                            'id' => $id
+                        ]
                     ]
-                ]
-            );
+                );
+            }
             $result = json_decode($response->getBody()->getContents(), true);
             return $result['data'];
+        } catch (ClientException $e) {
+            return [
+                'status' => 'error',
+                'codeerror' => $e->getCode()
+            ];
+            // echo Psr7\Message::toString($e->getRequest());
+            // echo Psr7\Message::toString($e->getResponse());
         }
     }
 

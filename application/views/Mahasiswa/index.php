@@ -110,21 +110,23 @@
               <tbody>
                 <?php
                 $no = 1;
-                foreach ($mahasiswa as $row) { ?>
-                  <tr>
-                    <td><?= $no ?></td>
-                    <td><?= $row['nrp']; ?></td>
-                    <td><?= $row['nama']; ?></td>
-                    <td><?= $row['email']; ?></td>
-                    <td><?= $row['jurusan']; ?></td>
-                    <td>
-                      <a href="<?= base_url(); ?>Mahasiswa/deleteData/<?= $row['id']; ?>" class="btn btn-danger float-right tombol-hapus">hapus</a>
-                      <a href="<?= base_url(); ?>Mahasiswa/ubah/<?= $row['id']; ?>" class="btn btn-success float-right">ubah</a>
-                      <a href="<?= base_url(); ?>Mahasiswa/detail/<?= $row['id']; ?>" class="btn btn-primary float-right">detail</a>
-                    </td>
-                  </tr>
+                if ($mahasiswa['status'] != 'error') {
+                  foreach ($mahasiswa as $row) { ?>
+                    <tr>
+                      <td><?= $no ?></td>
+                      <td><?= $row['nrp']; ?></td>
+                      <td><?= $row['nama']; ?></td>
+                      <td><?= $row['email']; ?></td>
+                      <td><?= $row['jurusan']; ?></td>
+                      <td>
+                        <a href="<?= base_url(); ?>Mahasiswa/deleteData/<?= $row['id']; ?>" class="btn btn-danger float-right tombol-hapus">hapus</a>
+                        <a href="<?= base_url(); ?>Mahasiswa/ubah/<?= $row['id']; ?>" class="btn btn-success float-right">ubah</a>
+                        <a href="<?= base_url(); ?>Mahasiswa/detail/<?= $row['id']; ?>" class="btn btn-primary float-right">detail</a>
+                      </td>
+                    </tr>
                 <?php
-                  $no++;
+                    $no++;
+                  }
                 }
                 ?>
               </tbody>
